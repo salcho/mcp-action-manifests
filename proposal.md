@@ -59,4 +59,6 @@ Ideally, move some of the other security-related properties to the new `Security
 
 - **Manifest drift:** We call manifest drift to situations where manifest attributes go out-of-sync with action capabilities. Manifest attributes are set by action owners at registration-time, but they must be updated in sync with code changes submitted to the action's backend logic. What's more, changes to transitive dependencies of actions could make manifests attributes become outdated without the action owner noticing it. Actions whose manifests have drifted may introduce vulnerabilities or be overly restrictive.
 - **Ambiguity:** Ambiguous manifest attributes might lead to vulnerabilities. For example, browsing an arbitrary URL may or may not be a state changing action.
-- **Trust:** Like all data coming from untrusted 3P MCP servers, action properties may be used by malicious actors or supply chain attacks to bypass security features or cause harmful agent outcomes. 
+- **Trust:** Like all data coming from untrusted 3P MCP servers, action properties may be used by malicious actors or supply chain attacks to bypass security features or cause harmful agent outcomes.
+
+This proposal is written by [Sal Diaz](https://github.com/salcho) and [Youssef Attia](https://github.com/youssef-attia) obo of Google's Agent Security team.
