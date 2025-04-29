@@ -61,4 +61,4 @@ Ideally, move some of the other security-related properties to the new `Security
 - **Ambiguity:** Ambiguous manifest attributes might lead to vulnerabilities. For example, browsing an arbitrary URL may or may not be a state changing action.
 - **Trust:** Like all data coming from untrusted 3P MCP servers, action properties may be used by malicious actors or supply chain attacks to bypass security features or cause harmful agent outcomes.
 
-This proposal is written by [Sal Diaz](https://github.com/salcho) and [Youssef Attia](https://github.com/youssef-attia) obo of Google's Agent Security team.
+This proposal is written by [Sal Diaz](https://github.com/salcho) and [Youssef Attia](https://github.com/youssef-attia).
