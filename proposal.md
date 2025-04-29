@@ -17,7 +17,7 @@ Action manifests allow agents to constrain what actions can be invoked in a give
 These policies may be enforced _deterministically_ as classical security features implemented outside the model, to provide high-assurance guarantees against rogue actions and data exfiltration. They complement any model-based defenses that agents deploy. Alternatively, giving models visibility into action manifests can lead to higher quality, more judicious decision making when making tool calls.
 
 ## **Proposal**
-The `ToolAnnotations`[https://github.com/modelcontextprotocol/modelcontextprotocol/blob/3ba3181c7779da74b24f0c083eb7055b6fc9d928/schema/2025-03-26/schema.ts#L730] interface is a container for action properties, similar to the mentioned action manifest. We propose to expand this interface with, security-related hints, that can be made available to MCP clients when dynamically loading tools from MCP servers. We have found that the following properties are useful to build security properties in real-world systems:
+The [`ToolAnnotations`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/3ba3181c7779da74b24f0c083eb7055b6fc9d928/schema/2025-03-26/schema.ts#L730) interface is a container for action properties, similar to the mentioned action manifest. We propose to expand this interface with, security-related hints, that can be made available to MCP clients when dynamically loading tools from MCP servers. We have found that the following properties are useful to build security properties in real-world systems:
 
 - **State-changing vs read-only:** Whether calling the action leads to updates/additions/removals in the external environment or in a lasting change to the internal state of stateful actions. 
 - **Reversibility:** If an action is state changing, whether the side-effects of calling are not reversible.
@@ -30,24 +30,22 @@ The correct granularity/breadth of security properties for actions is a matter o
 
 ## **Concrete Changes**
 ```typescript
+export interface SecurityToolAnnotations {
+    stateChangingHint?: boolean;
+    // only meaningful when `stateChanging` is true
+    reversibleHint?: boolean;
+    incognitoHint?: boolean;
+    // perhaps an enum of device capabilities, or just a boolean
+    deviceCapabilitiesHint: DeviceCapabilities;
+    asyncHint?: boolean;
+    batchHint?: boolean;
+}
+
 export interface ToolAnnotations {
-  title?: string;
-  readOnlyHint?: boolean;
-  destructiveHint?: boolean;
-  idempotentHint?: boolean;
-  openWorldHint?: boolean;
-  stateChangingHint?: boolean;
-  // only meaningful when `stateChanging` is true
-  reversibleHint?: boolean;
-  incognitoHint?: boolean;
-  // perhaps an enum of device capabilities, or just a boolean
-  deviceCapabilitiesHint: DeviceCapabilities;
-  asyncHint?: boolean;
-  batchHint?: boolean;
+  /** ... all current properties stay as they are .. **/
+  securityToolHints?: SecurityToolAnnotations;
 }
 ```
-
-Alternatively, create a new `SecurityAnnotations` interface within `ToolAnnotations` where these new properties can be added.
 
 ## **Benefits**
 
