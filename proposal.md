@@ -19,7 +19,7 @@ These policies may be enforced _deterministically_ as classical security feature
 ## **Proposal**
 The [`ToolAnnotations`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/3ba3181c7779da74b24f0c083eb7055b6fc9d928/schema/2025-03-26/schema.ts#L730) interface is a container for action properties, similar to the mentioned action manifest. We propose to expand this interface with, security-related hints, that can be made available to MCP clients when dynamically loading tools from MCP servers. We have found that the following properties are useful to build security properties in real-world systems:
 
-- **State-changing vs read-only:** Whether calling the action leads to updates/additions/removals in the external environment or in a lasting change to the internal state of stateful actions. 
+- **State-changing vs read-only:** Whether calling the action leads to updates/additions/removals in the external environment or in a lasting change to the internal state of stateful actions. Note that this is already captured by the `readOnlyHint` property.
 - **Reversibility:** If an action is state changing, whether the side-effects of calling are not reversible.
 - **Authenticated vs incognito:** whether the action requires end user credentials to be propagated to the backend. MCP clients can read this property and make unauthenticated calls to incognito actions.
 - **Device capabilities:** Whether the action can command IoT or physical devices.
@@ -31,8 +31,7 @@ The correct granularity/breadth of security properties for actions is a matter o
 ## **Concrete Changes**
 ```typescript
 export interface SecurityToolAnnotations {
-    stateChangingHint?: boolean;
-    // only meaningful when `stateChanging` is true
+    // only meaningful when `readOnlyHint` is true
     reversibleHint?: boolean;
     incognitoHint?: boolean;
     // perhaps an enum of device capabilities, or just a boolean
@@ -46,6 +45,8 @@ export interface ToolAnnotations {
   securityToolHints?: SecurityToolAnnotations;
 }
 ```
+
+Ideally, move some of the other security-related properties to the new `SecurityToolAnnotations` container. These include `readOnlyHint` and `openWorldHint`.
 
 ## **Benefits**
 
